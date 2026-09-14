@@ -1,0 +1,25 @@
+name: API Tests Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  api-tests:
+    name: Postman API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el codigo del repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Newman
+        run: npm install -g newman
+
+      - name: Ejecutar coleccion de Postman
+        run: newman run api-tests/ecomerce_api_projet.postman_collection.json -e api-tests/env-hanane.postman_environment.json
